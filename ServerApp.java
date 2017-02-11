@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 //This class represents the server application
 public class ServerApp
@@ -14,10 +15,34 @@ public class ServerApp
             //receive message from client, and send the "received" message back.
             byte[] byteArray = transportLayer.receive();
             //if client disconnected
-            if(byteArray==null)
+            String input = new String (byteArray);
+            String shortInput = input.substring(0,1);
+            String[] arrStr_Output;
+            String m_Output;
+            switch(shortInput){
+                case "C": arrStr_Output = input.split(" ");
+                          m_Output= arrStr_Output[1];
+                          System.out.println("COMMAND:\t" + m_Output);
+                          break;
+                case "I": arrStr_Output = input.split(" ");
+                          m_Output= arrStr_Output[1];
+                          System.out.println("IP ADDRESS:\t" + m_Output);
+                          break;
+                case "H": arrStr_Output = input.split(" ");
+                          m_Output= arrStr_Output[1];
+                          System.out.println("HTTP?:\t\t" + m_Output);
+                          break;
+                case "N": arrStr_Output = input.split(" ");
+                          m_Output= arrStr_Output[1];
+                          System.out.println("HTTP PROTOCOL:\t" + m_Output);
+                          break;
+                default: break;
+            }
+            if(byteArray==null){
+                System.out.println("Null Input");
                 break;
+            }
             String str = new String ( byteArray );
-            System.out.println( str );
             String line = "received";
             byteArray = line.getBytes();
             transportLayer.send( byteArray );
