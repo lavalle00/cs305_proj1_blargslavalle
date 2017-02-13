@@ -1,4 +1,4 @@
-
+import java.util.concurrent.TimeUnit;
 public class NetworkLayer
 {
 
@@ -19,12 +19,18 @@ public class NetworkLayer
         byte[] payload = linkLayer.receive();
         return payload;
     }
-    private void propDelay(byte[] payload){
+    private void propDelay(long delay){
         //add consistent delay here...
+        try{
+        TimeUnit.MILLISECONDS.sleep(delay);
+    }catch(InterruptedException e){}
     }
     private void networkDelay(byte[] payload){
         int sizePayload = (payload.length)-1;
+        long delay = 0;
         //add delay based on payload length/size via sizePayload...
-        
+        try{
+        TimeUnit.MILLISECONDS.sleep(delay);
+    }catch(InterruptedException e){}
     }
 }
