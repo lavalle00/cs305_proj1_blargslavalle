@@ -16,27 +16,28 @@ public class ServerApp
             byte[] byteArray = transportLayer.receive();
             //if client disconnected
             String input = new String (byteArray);
-            String shortInput = input.substring(0,1);
+            String inputFirstChar = input.substring(0,1);
             String[] arrStr_Output;
-            String m_Output;
-            switch(shortInput){
+            String strParsedOutput;
+            switch(inputFirstChar){
                 case "C": arrStr_Output = input.split(" ");
-                          m_Output= arrStr_Output[1];
-                          System.out.println("COMMAND:\t" + m_Output);
+                          strParsedOutput= arrStr_Output[1];
+                          System.out.println("COMMAND:\t" + strParsedOutput);
                           break;
                 case "I": arrStr_Output = input.split(" ");
-                          m_Output= arrStr_Output[1];
-                          System.out.println("IP ADDRESS:\t" + m_Output);
+                          strParsedOutput= arrStr_Output[1];
+                          System.out.println("IP ADDRESS:\t" + strParsedOutput);
                           break;
                 case "H": arrStr_Output = input.split(" ");
-                          m_Output= arrStr_Output[1];
-                          System.out.println("HTTP?:\t\t" + m_Output);
+                          strParsedOutput= arrStr_Output[1];
+                          System.out.println("HTTP?:\t\t" + strParsedOutput);
                           break;
                 case "N": arrStr_Output = input.split(" ");
-                          m_Output= arrStr_Output[1];
-                          System.out.println("HTTP PROTOCOL:\t" + m_Output);
+                          strParsedOutput= arrStr_Output[1];
+                          System.out.println("HTTP PROTOCOL:\t" + strParsedOutput);
                           break;
-                default: break;
+                default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
+                         break;
             }
             if(byteArray==null){
                 System.out.println("Null Input");
