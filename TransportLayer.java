@@ -19,4 +19,23 @@ public class TransportLayer
         byte[] payload = networkLayer.receive();    
         return payload;
     }
+    public boolean synAckOut(boolean syn, boolean ack, boolean synack){
+        //sending syn
+        if(syn){
+            
+        }
+        //sending ack
+        else if(ack){
+            
+        }
+        //sending synack
+        else if(synack){
+            
+        }
+        
+        else{
+            
+        }
+        return true;
+    }
 }
