@@ -5,4 +5,6 @@ comment1.params=payload
 comment1.target=void\ send(byte[])
 comment2.params=
 comment2.target=byte[]\ receive()
-numComments=3
+comment3.params=msg
+comment3.target=boolean\ threeWay(java.lang.String)
+numComments=4

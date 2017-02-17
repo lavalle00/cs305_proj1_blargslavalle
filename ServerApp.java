@@ -22,19 +22,19 @@ public class ServerApp
             switch(inputFirstChar){
                 case "C": arrStr_Output = input.split(" ");
                           strParsedOutput= arrStr_Output[1];
-                          System.out.println("\\COMMAND:\t" + strParsedOutput);
+                          System.out.println("\tCOMMAND:\t" + strParsedOutput);
                           break;
                 case "I": arrStr_Output = input.split(" ");
                           strParsedOutput= arrStr_Output[1];
-                          System.out.println("\\IP ADDRESS:\t" + strParsedOutput);
+                          System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
                           break;
                 case "H": arrStr_Output = input.split(" ");
                           strParsedOutput= arrStr_Output[1];
-                          System.out.println("\\HTTP?:\t\t" + strParsedOutput);
+                          System.out.println("\tHTTP?:\t\t" + strParsedOutput);
                           break;
                 case "N": arrStr_Output = input.split(" ");
                           strParsedOutput= arrStr_Output[1];
-                          System.out.println("\\HTTP PROTOCOL:\t" + strParsedOutput);
+                          System.out.println("\tHTTP PROTOCOL:\t" + strParsedOutput);
                           break;
                 default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
                          break;
