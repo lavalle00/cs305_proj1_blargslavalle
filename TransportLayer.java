@@ -1,8 +1,10 @@
 
 public class TransportLayer
 {
+    //hardcoded byte arrays for syn & ack
     String str_syn, str_ack;
     byte[] arr_syn, arr_ack;
+    byte[] masterPayload;
     private NetworkLayer networkLayer;
     //server is true if the application is a server (should listen) or false if it is a client (should try and connect)
     public TransportLayer(boolean server){
@@ -14,6 +16,7 @@ public class TransportLayer
     }
 
     public void send(byte[] payload){
+        this.masterPayload = payload;
         if(payload == this.arr_ack){
             
         }
