@@ -9,33 +9,15 @@ public class TransportLayer
         networkLayer = new NetworkLayer(server);
     }
 
-    public void send(byte[] payload)
-    {
+    public void send(byte[] payload){
+        System.out.println("Transport\t\tSend");
         networkLayer.send( payload );
     }
 
-    public byte[] receive()
-    {
-        byte[] payload = networkLayer.receive();    
-        return payload;
-    }
-    public boolean synAckOut(boolean syn, boolean ack, boolean synack){
-        //sending syn
-        if(syn){
-            
-        }
-        //sending ack
-        else if(ack){
-            
-        }
-        //sending synack
-        else if(synack){
-            
-        }
-        
-        else{
-            
-        }
-        return true;
-    }
+    public byte[] receive(){
+         System.out.println("Transport\t\tReceive");
+         byte[] payload = networkLayer.receive();    
+         return payload;
+   }
+
 }

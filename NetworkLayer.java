@@ -16,11 +16,13 @@ public class NetworkLayer
     }
     public void send(byte[] payload)
     {
+        System.out.println("Network \t\t\t\tSend");
         linkLayer.send( payload );
     }
 
     public byte[] receive()
     {
+        System.out.println("Network \t\t\t\tReceive");
         byte[] payload = linkLayer.receive();
         return payload;
     }
@@ -30,7 +32,7 @@ public class NetworkLayer
             TimeUnit.MILLISECONDS.sleep(delay);
         }
         catch(InterruptedException e){
-            System.out.println(e.stackTrace());
+            e.printStackTrace();
         }
     }
     private void networkDelay(byte[] payload){
@@ -42,7 +44,7 @@ public class NetworkLayer
             TimeUnit.MILLISECONDS.sleep(timeDelay);
         }
         catch(InterruptedException e){
-            System.out.println(e.stackTrace());
+            e.printStackTrace();
         }
     }
 }

@@ -1,12 +1,14 @@
 #BlueJ class context
 comment0.params=server
 comment0.target=NetworkLayer(boolean)
-comment1.params=payload
-comment1.target=void\ send(byte[])
-comment2.params=
-comment2.target=byte[]\ receive()
-comment3.params=delay
-comment3.target=void\ propDelay(long)
-comment4.params=payload
-comment4.target=void\ networkDelay(byte[])
-numComments=5
+comment1.params=server\ delay
+comment1.target=NetworkLayer(boolean,\ long)
+comment2.params=payload
+comment2.target=void\ send(byte[])
+comment3.params=
+comment3.target=byte[]\ receive()
+comment4.params=delay
+comment4.target=void\ propDelay(long)
+comment5.params=payload
+comment5.target=void\ networkDelay(byte[])
+numComments=6
