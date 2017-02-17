@@ -16,13 +16,13 @@ public class NetworkLayer
     }
     public void send(byte[] payload)
     {
-        System.out.println("Network \t\t\t\tSend");
+        System.out.println("Network \t\tSend");
         linkLayer.send( payload );
     }
 
     public byte[] receive()
     {
-        System.out.println("Network \t\t\t\tReceive");
+        System.out.println("Network \t\tReceive");
         byte[] payload = linkLayer.receive();
         return payload;
     }
