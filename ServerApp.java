@@ -11,6 +11,11 @@ public class ServerApp
     TransportLayer transportLayer;
     BufferedReader buffReader;
     FileReader     fileReader;
+    String HTTPtype;
+    String IPaddress;
+    String Command;
+    int Pdelay;
+    int Tdelay;
     public static void main(String[] args) throws Exception
     {
         ServerApp s = new ServerApp();
@@ -30,16 +35,31 @@ public class ServerApp
             String[] arrStr_Output;
             String strParsedOutput;
             switch(inputFirstChar){
+                
                 case "C": arrStr_Output = input.split(" ");
-                          strParsedOutput= arrStr_Output[1];
+                          strParsedOutput = arrStr_Output[1];
+                          Command = strParsedOutput;
                           System.out.println("\tCOMMAND:\t" + strParsedOutput);
                           break;
                 case "I": arrStr_Output = input.split(" ");
-                          strParsedOutput= arrStr_Output[1];
+                          strParsedOutput = arrStr_Output[1];
+                          IPaddress = strParsedOutput;
+                          System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
+                          
+                          break;
+                case "P": arrStr_Output = input.split(" ");
+                          strParsedOutput = arrStr_Output[1];
+                          Pdelay = Integer.parseInt(strParsedOutput);
+                          System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
+                          break;
+                case "T": arrStr_Output = input.split(" ");
+                          strParsedOutput = arrStr_Output[1];
+                          Tdelay = Integer.parseInt(strParsedOutput);
                           System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
                           break;
                 case "H": arrStr_Output = input.split(" ");
-                          strParsedOutput= arrStr_Output[1];
+                          strParsedOutput = arrStr_Output[1];
+                          HTTPtype = strParsedOutput;
                           System.out.println("\tHTTP PROTOCOL:\t\t" + strParsedOutput);
                           break;
 
@@ -50,41 +70,51 @@ public class ServerApp
                 System.out.println("Null Input");
                 break;
             }
-            String str = new String (byteArray);
-            String line = "received";
-            byteArray = line.getBytes();
-            //check if requested item can be found
-            //check if requested item is modified
-            //if not eithger of those, ok
             
-            transportLayer.send(byteArray);
+            //check if requested item can be found
+            if(checkFound(IPaddress)){
+            }else{
+             codeThrow(404);
+            }
+            //check if requested item is modified
+            if(checkModified(IPaddress)){
+                
+            }else{
+             codeThrow(304);
+            }
+            //if not eithger of those, ok
+            codeThrow(200);
+            
+            transportLayer.send(stringEncode(IPaddress));
 
         }
     }
     public void addressRead(String address){
         try {
 
-			fileReader = new FileReader(address);
-			buffReader = new BufferedReader(fileReader);
+            fileReader = new FileReader(address);
+            buffReader = new BufferedReader(fileReader);
 
-			String sCurrentLine;
+            String sCurrentLine;
 
-			buffReader = new BufferedReader(new FileReader(address));
-			while ((sCurrentLine = buffReader.readLine()) != null) {
-				System.out.println(sCurrentLine);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (buffReader != null)
-					buffReader.close();
+            buffReader = new BufferedReader(new FileReader(address));
+            while ((sCurrentLine = buffReader.readLine()) != null) {
+                System.out.println(sCurrentLine);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (buffReader != null){
+                    buffReader.close();
+                }
 
-				if (fileReader != null)
-					fileReader.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+                if (fileReader != null){
+                    fileReader.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
     public void codeThrow(int code){
@@ -104,6 +134,12 @@ public class ServerApp
             default:
                 break;
         }
+    }
+    public boolean checkFound(String file){
+        return true;
+    }
+    public boolean checkModified(String file){
+        return true;
     }
     private byte[] stringEncode(String string){
         return string.getBytes();
