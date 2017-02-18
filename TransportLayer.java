@@ -25,12 +25,15 @@ public class TransportLayer
     }
 
     public void send(byte[] payload){
+        //check if 3way data
         if(payload == this.arr_ack || payload == this.arr_syn ){
             
         }
+        //else cache the payload
         else{
             this.masterPayload = payload;
         }
+        //
         if(payload == this.arr_ack){
             
         }

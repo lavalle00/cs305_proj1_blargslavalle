@@ -40,12 +40,9 @@ public class ServerApp
                           break;
                 case "H": arrStr_Output = input.split(" ");
                           strParsedOutput= arrStr_Output[1];
-                          System.out.println("\tHTTP?:\t\t" + strParsedOutput);
+                          System.out.println("\tHTTP PROTOCOL:\t\t" + strParsedOutput);
                           break;
-                case "N": arrStr_Output = input.split(" ");
-                          strParsedOutput= arrStr_Output[1];
-                          System.out.println("\tHTTP PROTOCOL:\t" + strParsedOutput);
-                          break;
+
                 default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
                          break;
             }
