@@ -1,4 +1,12 @@
 #BlueJ class context
 comment0.params=args
 comment0.target=void\ main(java.lang.String[])
-numComments=1
+comment1.params=
+comment1.target=void\ init()
+comment2.params=address
+comment2.target=void\ addressRead(java.lang.String)
+comment3.params=code
+comment3.target=void\ codeThrow(int)
+comment4.params=string
+comment4.target=byte[]\ stringEncode(java.lang.String)
+numComments=5
