@@ -1,0 +1,20 @@
+<client> and <server> execute
+<client> -> <server> prop & trans delay
+<client> -> <server> HTTP 1.0/ 1.1
+
+<client> -> <server> IP (pending)
+#Initiate handshake
+	<client> -> <server> SYN
+	<server> -> <client> ACK
+<client> -> <server> IP GET
+<server> -> <client> Send 
+			200
+				<client> recieves page
+					prints out content
+			304
+				<client> recieves data
+					notify duplicate content
+					prints out content
+			404
+				<client> recieves nothing
+					notify no content

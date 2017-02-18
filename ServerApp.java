@@ -50,14 +50,14 @@ public class ServerApp
                 System.out.println("Null Input");
                 break;
             }
-            String str = new String ( byteArray );
+            String str = new String (byteArray);
             String line = "received";
             byteArray = line.getBytes();
             //check if requested item can be found
             //check if requested item is modified
             //if not eithger of those, ok
             
-            transportLayer.send( byteArray );
+            transportLayer.send(byteArray);
 
         }
     }

@@ -55,6 +55,7 @@ public class TransportLayer
         }
         if(tempReceive == this.arr_ack){
             //send in ze moos
+            this.send(this.masterPayload);
         }
         
         
