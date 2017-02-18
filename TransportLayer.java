@@ -14,19 +14,23 @@ public class TransportLayer
         this.arr_syn = str_syn.getBytes();
         this.arr_ack = str_ack.getBytes();
     }
+    
+    //secondary const. with delay to propogate down to network layer. 
+    public TransportLayer(boolean server, long delay){
+        networkLayer = new NetworkLayer(server, delay);
+        this.str_syn = "syn";
+        this.str_ack = "ack";
+        this.arr_syn = str_syn.getBytes();
+        this.arr_ack = str_ack.getBytes();
+    }
+
 
     public void send(byte[] payload){
-        if(payload == this.arr_ack || payload == this.arr_syn ){
-            
-        }else{
-         this.masterPayload = payload;
-        }
+        this.masterPayload = payload;
         if(payload == this.arr_ack){
             
-        }else{
-         threeWay(str_syn);
         }
-       
+        threeWay(str_syn);
         System.out.println("Transport\t\tSend");
         networkLayer.send( payload );
     }
@@ -38,9 +42,7 @@ public class TransportLayer
             //respond w/ ack
             this.send(this.arr_ack);
         }
-        if(tempReceive == this.arr_ack){
-            //send in ze moos
-        }
+
         
         
         System.out.println("Transport\t\tReceive");
