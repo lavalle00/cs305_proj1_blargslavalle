@@ -82,7 +82,7 @@ public class ServerApp
             }else{
              codeThrow(304);
             }
-            //if not eithger of those, ok
+            //if not either of those, ok
             codeThrow(200);
             
             transportLayer.send(stringEncode(IPaddress));
@@ -99,7 +99,7 @@ public class ServerApp
 
             buffReader = new BufferedReader(new FileReader(address));
             while ((sCurrentLine = buffReader.readLine()) != null) {
-                System.out.println(sCurrentLine);
+                transportLayer.send(stringEncode(sCurrentLine));
             }
         } catch (IOException e) {
             e.printStackTrace();
