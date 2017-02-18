@@ -16,11 +16,17 @@ public class TransportLayer
     }
 
     public void send(byte[] payload){
-        this.masterPayload = payload;
+        if(payload == this.arr_ack || payload == this.arr_syn ){
+            
+        }else{
+         this.masterPayload = payload;
+        }
         if(payload == this.arr_ack){
             
+        }else{
+         threeWay(str_syn);
         }
-        threeWay(str_syn);
+       
         System.out.println("Transport\t\tSend");
         networkLayer.send( payload );
     }
@@ -31,6 +37,9 @@ public class TransportLayer
         if(tempReceive == this.arr_syn){
             //respond w/ ack
             this.send(this.arr_ack);
+        }
+        if(tempReceive == this.arr_ack){
+            //send in ze moos
         }
         
         
