@@ -1,19 +1,25 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileReader;
+import java.io.*;
 import java.io.IOException;
 import java.util.Arrays;
 
 //This class represents the server application
 public class ServerApp
 {
-
     TransportLayer transportLayer;
     BufferedReader buffReader;
     FileReader     fileReader;
+    
     String HTTPtype;
     String IPaddress;
     String Command;
+    
+    String str_200 = "CODE: 200";
+    String str_304 = "CODE: 304";
+    String str_404 = "CODE: 404";
+    
     int Pdelay;
     int Tdelay;
     public static void main(String[] args) throws Exception
@@ -44,31 +50,31 @@ public class ServerApp
                 case "C": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Command = strParsedOutput;
-                          System.out.println("\tCOMMAND:\t" + strParsedOutput);
+                          System.out.println("COMMAND:\t" + strParsedOutput);
                           break;
                 case "I": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           IPaddress = strParsedOutput;
-                          System.out.println("\tIPADDRESS:\t" + strParsedOutput);
+                          System.out.println("IPADDRESS:\t" + strParsedOutput);
                           IPcomm = true;
                           break;
                 case "P": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Pdelay = Integer.parseInt(strParsedOutput);
-                          System.out.println("\tPropagationDelay:\t" + strParsedOutput);
-                          transportLayer.send(stringEncode("Propagation Delay Updated"));
+                          System.out.println("PROPDELAY:\t" + strParsedOutput);
+                          sendTransport("Propagation Delay Set:\t" + Pdelay, codeThrow(200));
                           break;
                 case "T": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Tdelay = Integer.parseInt(strParsedOutput);
-                          transportLayer.send(stringEncode("Transmission Delay Updated"));
-                          System.out.println("\tTransmissionDelay:\t" + strParsedOutput);
+                          sendTransport("Transmission Delay Set:\t" + Tdelay, codeThrow(200));
+                          System.out.println("TRANSDELAY:\t" + strParsedOutput);
                           break;
                 case "H": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           HTTPtype = strParsedOutput;
-                          transportLayer.send(stringEncode("HTTP Version Selected"));
-                          System.out.println("\tHTTP:\t\t" + strParsedOutput);
+                          sendTransport("HTTP Version Selected:\t" + HTTPtype, codeThrow(200));
+                          System.out.println("HTTP:\t\t" + strParsedOutput);
                           break;
 
                 default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
@@ -105,21 +111,32 @@ public class ServerApp
         }
     }
     public void addressRead(String address){
+        String toSend = "";
         try {
-
-            fileReader = new FileReader(address);
-            buffReader = new BufferedReader(fileReader);
+            System.out.println("Address:\t\t\t\t" + address);
+            //fileReader = new FileReader(address);
+            //buffReader = new BufferedReader(fileReader);
 
             String sCurrentLine;
 
             buffReader = new BufferedReader(new FileReader(address));
             while ((sCurrentLine = buffReader.readLine()) != null) {
                 System.out.println("\tLine: " + sCurrentLine);
-                transportLayer.send(stringEncode(sCurrentLine));
+                toSend += sCurrentLine;
+                toSend += "\n";
             }
-        } catch (IOException e) {
+            //transportLayer.send(stringEncode(toSend));
+            sendTransport(toSend, codeThrow(200));
+        } 
+        catch (FileNotFoundException e) {
+            //address/ page specified doesn't exist
+            //transportLayer.send(stringEncode(codeThrow(404)));
+            sendTransport(codeThrow(404));
+        }
+        catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             try {
                 if (buffReader != null){
                     buffReader.close();
@@ -133,19 +150,28 @@ public class ServerApp
             }
         }
     }
+    //for sending pure codes
+    private void sendTransport(String code){
+        transportLayer.send(stringEncode(code));
+    }
+    //for sending string-built code + payload
+    private void sendTransport(String payload, String code){
+        System.out.println(stringEncode(code + "//" + payload));
+        transportLayer.send(stringEncode(code + "//" + payload));
+    }
     public String codeThrow(int code){
         switch(code) {
             case 200:
-                System.out.println("\n\tCode:\t200\t-Ok");
-                return "\n\tCode:\t200\t-Ok" ;
+                System.out.println(str_200);
+                return str_200 ;
             case 404:
-                System.out.println("\n\tCode:\t404\t-Not Found");
-                return "\n\tCode:\t404\t-Not Found";
+                System.out.println(str_404);
+                return str_404;
             case 304:
-                System.out.println("\n\tCode:\t304\t-Not Modified");
-                return "\n\tCode:\t304\t-Not Modified";
+                System.out.println(str_304);
+                return str_304;
             default:
-                return "\n\tCode:\t404\t-Not Found";
+                return str_404;
         }
     }
     public boolean checkFound(String file){
