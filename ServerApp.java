@@ -29,7 +29,7 @@ public class ServerApp
         {
             //receive message from client, and send the "received" message back.
             byte[] byteArray = transportLayer.receive();
-            System.out.println(byteArray);
+            //System.out.println(byteArray);
             //if client disconnected
             String input = new String (byteArray);
             String inputFirstChar = input.substring(0,1);
@@ -88,7 +88,11 @@ public class ServerApp
             //if not either of those, ok
             codeThrow(200);
             System.out.println("\tSending...");
-            //transportLayer.send(stringEncode(IPaddress));
+            if(IPaddress != null){
+                
+                System.out.println("\tReading File");
+                addressRead(IPaddress);
+            }
 
         }
     }
@@ -102,6 +106,7 @@ public class ServerApp
 
             buffReader = new BufferedReader(new FileReader(address));
             while ((sCurrentLine = buffReader.readLine()) != null) {
+                System.out.println("\tLine: " + sCurrentLine);
                 transportLayer.send(stringEncode(sCurrentLine));
             }
         } catch (IOException e) {

@@ -3,7 +3,7 @@ public class TransportLayer
 {
     byte[] masterPayload;
     private NetworkLayer networkLayer;
-    
+    boolean connected = false;
     //server is true if the application is a server (should listen) or false if it is a client (should try and connect)
     public TransportLayer(boolean server){
         networkLayer = new NetworkLayer(server);

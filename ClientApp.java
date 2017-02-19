@@ -11,17 +11,23 @@ public class ClientApp
         TransportLayer transportLayer = new TransportLayer(false);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line = reader.readLine();
-
         //while line is not empty
         while( line != null && !line.equals("") )
         {
+            //if(transportLayer.receive() != null){
+            //    byte[] byteArray = transportLayer.receive();
+            //}
             //convert lines into byte array, send to transoport layer and wait for response
             byte[] byteArray = line.getBytes();
+            
             transportLayer.send( byteArray );
             byteArray = transportLayer.receive();
-            System.out.println(byteArray);
+            while( byteArray != null){
+            //System.out.println(byteArray);
             String str = new String ( byteArray );
             System.out.println( str );
+            byteArray = transportLayer.receive();
+           }
             //read next line
             line = reader.readLine();
         }
