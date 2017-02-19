@@ -29,6 +29,7 @@ public class ServerApp
         {
             //receive message from client, and send the "received" message back.
             byte[] byteArray = transportLayer.receive();
+            System.out.println(byteArray);
             //if client disconnected
             String input = new String (byteArray);
             String inputFirstChar = input.substring(0,1);

@@ -19,6 +19,7 @@ public class ClientApp
             byte[] byteArray = line.getBytes();
             transportLayer.send( byteArray );
             byteArray = transportLayer.receive();
+            System.out.println(byteArray);
             String str = new String ( byteArray );
             System.out.println( str );
             //read next line

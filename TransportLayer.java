@@ -32,10 +32,7 @@ public class TransportLayer
         //else cache the payload
         else{
             System.out.println("Cached Master");
-            String str = new String ( payload );
-            str = str.substring(10).trim();
-            System.out.println(str);
-            this.masterPayload = str.getBytes();
+            this.masterPayload = payload;
         }
         //
         if(payload == this.arr_ack){
@@ -56,6 +53,7 @@ public class TransportLayer
         //recieve syn
         if(tempReceive == this.arr_syn){
             //respond w/ ack
+            System.out.println("Ack\t\tSent");
             this.send(this.arr_ack);
         }
         if(tempReceive == this.arr_ack){
@@ -65,19 +63,20 @@ public class TransportLayer
         }
         
         
-        System.out.println("Transport\t\tReceive");
-        byte[] payload = networkLayer.receive();    
-        return payload;
+        System.out.println("Transport\t\tReceive");  
+        return tempReceive;
    }
    
    public boolean threeWay(String msg){
        if(msg == str_syn){
            //syn through layers to this.receive()
+           
            networkLayer.send(arr_syn);
            //receive from network
            if(this.receive() == arr_ack){
             //send payload
-            
+            System.out.println("Transport\t\tSend");
+            networkLayer.send( this.masterPayload );
             }
        }
        if(msg == str_ack){
