@@ -31,13 +31,18 @@ public class TransportLayer
         }
         //else cache the payload
         else{
-            this.masterPayload = payload;
+            System.out.println("Cached Master");
+            String str = new String ( payload );
+            str = str.substring(10).trim();
+            System.out.println(str);
+            this.masterPayload = str.getBytes();
         }
         //
         if(payload == this.arr_ack){
             
         }
         else{
+            System.out.println("Three Way\t\tBegin");
             threeWay(str_syn);
         }
        
@@ -55,6 +60,7 @@ public class TransportLayer
         }
         if(tempReceive == this.arr_ack){
             //send in ze moos
+            System.out.println("Payload\t\tSent");
             this.send(this.masterPayload);
         }
         

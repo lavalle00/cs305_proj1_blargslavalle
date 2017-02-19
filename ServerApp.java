@@ -34,6 +34,8 @@ public class ServerApp
             String inputFirstChar = input.substring(0,1);
             String[] arrStr_Output;
             String strParsedOutput;
+            System.out.println("\nInto switch");
+            System.out.println("\nFirst Char: " + inputFirstChar);
             switch(inputFirstChar){
                 
                 case "C": arrStr_Output = input.split(" ");
@@ -44,23 +46,23 @@ public class ServerApp
                 case "I": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           IPaddress = strParsedOutput;
-                          System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
+                          System.out.println("\tIPADDRESS:\t" + strParsedOutput);
                           
                           break;
                 case "P": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Pdelay = Integer.parseInt(strParsedOutput);
-                          System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
+                          System.out.println("\tPropagationDelay:\t" + strParsedOutput);
                           break;
                 case "T": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Tdelay = Integer.parseInt(strParsedOutput);
-                          System.out.println("\tIP ADDRESS:\t" + strParsedOutput);
+                          System.out.println("\tTransmissionDelay:\t" + strParsedOutput);
                           break;
                 case "H": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           HTTPtype = strParsedOutput;
-                          System.out.println("\tHTTP PROTOCOL:\t\t" + strParsedOutput);
+                          System.out.println("\tHTTP:\t\t" + strParsedOutput);
                           break;
 
                 default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
@@ -84,7 +86,7 @@ public class ServerApp
             }
             //if not either of those, ok
             codeThrow(200);
-            
+            System.out.println("\tSending...");
             transportLayer.send(stringEncode(IPaddress));
 
         }
