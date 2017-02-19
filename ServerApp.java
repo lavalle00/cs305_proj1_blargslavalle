@@ -88,7 +88,7 @@ public class ServerApp
             //if not either of those, ok
             codeThrow(200);
             System.out.println("\tSending...");
-            transportLayer.send(stringEncode(IPaddress));
+            //transportLayer.send(stringEncode(IPaddress));
 
         }
     }
