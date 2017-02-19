@@ -16,7 +16,7 @@ public class NetworkLayer
     }
     public void send(byte[] payload)
     {
-        System.out.println("Network \t\tSend");
+        //System.out.println("Network \t\tSend");
         //add prop delay
         this.propDelay();
         //add trans delay
@@ -26,7 +26,7 @@ public class NetworkLayer
 
     public byte[] receive()
     {
-        System.out.println("Network \t\tReceive");
+        //System.out.println("Network \t\tReceive");
         byte[] payload = linkLayer.receive();
         return payload;
     }

@@ -48,15 +48,19 @@ public class TransportLayer
     }
 
     public byte[] receive(){
-        byte[] tempReceive = networkLayer.receive();
         
+        System.out.println("Transport Rec Method");
+        byte[] tempReceive = networkLayer.receive();
+        String recString = new String(tempReceive);
+        String synString = new String(this.arr_syn);
+        String ackString = new String(this.arr_ack);
         //recieve syn
-        if(tempReceive == this.arr_syn){
+        if(recString.equals(synString)){
             //respond w/ ack
             System.out.println("Ack\t\tSent");
             this.send(this.arr_ack);
         }
-        if(tempReceive == this.arr_ack){
+        if(recString.equals(ackString)){
             //send in ze moos
             System.out.println("Payload\t\tSent");
             this.send(this.masterPayload);
@@ -70,7 +74,6 @@ public class TransportLayer
    public boolean threeWay(String msg){
        if(msg == str_syn){
            //syn through layers to this.receive()
-           
            networkLayer.send(arr_syn);
            //receive from network
            if(this.receive() == arr_ack){

@@ -35,8 +35,9 @@ public class ServerApp
             String inputFirstChar = input.substring(0,1);
             String[] arrStr_Output;
             String strParsedOutput;
-            System.out.println("\nInto switch");
-            System.out.println("\nFirst Char: " + inputFirstChar);
+            System.out.println("Into switch");
+            System.out.println("Input: " + input);
+            System.out.println("First Char: " + inputFirstChar);
             switch(inputFirstChar){
                 
                 case "C": arrStr_Output = input.split(" ");
@@ -48,7 +49,6 @@ public class ServerApp
                           strParsedOutput = arrStr_Output[1];
                           IPaddress = strParsedOutput;
                           System.out.println("\tIPADDRESS:\t" + strParsedOutput);
-                          
                           break;
                 case "P": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
