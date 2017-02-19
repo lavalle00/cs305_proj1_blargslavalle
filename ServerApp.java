@@ -35,6 +35,7 @@ public class ServerApp
             String inputFirstChar = input.substring(0,1);
             String[] arrStr_Output;
             String strParsedOutput;
+            boolean IPcomm = false;
             System.out.println("Into switch");
             System.out.println("Input: " + input);
             System.out.println("First Char: " + inputFirstChar);
@@ -49,24 +50,29 @@ public class ServerApp
                           strParsedOutput = arrStr_Output[1];
                           IPaddress = strParsedOutput;
                           System.out.println("\tIPADDRESS:\t" + strParsedOutput);
+                          IPcomm = true;
                           break;
                 case "P": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Pdelay = Integer.parseInt(strParsedOutput);
                           System.out.println("\tPropagationDelay:\t" + strParsedOutput);
+                          transportLayer.send(stringEncode("Propagation Delay Updated"));
                           break;
                 case "T": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           Tdelay = Integer.parseInt(strParsedOutput);
+                          transportLayer.send(stringEncode("Transmission Delay Updated"));
                           System.out.println("\tTransmissionDelay:\t" + strParsedOutput);
                           break;
                 case "H": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           HTTPtype = strParsedOutput;
+                          transportLayer.send(stringEncode("HTTP Version Selected"));
                           System.out.println("\tHTTP:\t\t" + strParsedOutput);
                           break;
 
                 default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
+                         transportLayer.send(stringEncode("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"));
                          break;
             }
             if(byteArray==null){
@@ -86,12 +92,14 @@ public class ServerApp
              codeThrow(304);
             }
             //if not either of those, ok
-            codeThrow(200);
+            
             System.out.println("\tSending...");
-            if(IPaddress != null){
-                
+            if(IPcomm){
+                //FIX CODE THROWS
+                //codeThrow(200);
                 System.out.println("\tReading File");
                 addressRead(IPaddress);
+                IPcomm = false;
             }
 
         }
@@ -125,22 +133,19 @@ public class ServerApp
             }
         }
     }
-    public void codeThrow(int code){
+    public String codeThrow(int code){
         switch(code) {
             case 200:
                 System.out.println("\n\tCode:\t200\t-Ok");
-                transportLayer.send(stringEncode("\n\tCode:\t200\t-Ok"));
-                break;
+                return "\n\tCode:\t200\t-Ok" ;
             case 404:
                 System.out.println("\n\tCode:\t404\t-Not Found");
-                transportLayer.send(stringEncode("\n\tCode:\t404\t-Not Found"));
-                break;
+                return "\n\tCode:\t404\t-Not Found";
             case 304:
                 System.out.println("\n\tCode:\t304\t-Not Modified");
-                transportLayer.send(stringEncode("\n\tCode:\t304\t-Not Modified"));
-                break;
+                return "\n\tCode:\t304\t-Not Modified";
             default:
-                break;
+                return "\n\tCode:\t404\t-Not Found";
         }
     }
     public boolean checkFound(String file){

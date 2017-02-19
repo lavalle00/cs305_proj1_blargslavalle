@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
+import java.io.IOException;
 //This class represents the client application
 public class ClientApp
 {
@@ -11,6 +11,7 @@ public class ClientApp
         TransportLayer transportLayer = new TransportLayer(false);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line = reader.readLine();
+        int num = 0;
         //while line is not empty
         while( line != null && !line.equals("") )
         {
@@ -22,12 +23,9 @@ public class ClientApp
             
             transportLayer.send( byteArray );
             byteArray = transportLayer.receive();
-            while( byteArray != null){
-            //System.out.println(byteArray);
             String str = new String ( byteArray );
             System.out.println( str );
-            byteArray = transportLayer.receive();
-           }
+          
             //read next line
             line = reader.readLine();
         }
