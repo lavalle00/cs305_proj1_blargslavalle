@@ -20,7 +20,8 @@ public class ServerApp
     String str_304 = "CODE: 304";
     String str_404 = "CODE: 404";
     
-    int pDelay, tDelay;
+    int pDelay = 10;
+    int tDelay = 2;
     //expected arguments pDelay, tDelay, httpProt.
     public static void main(String[] args) throws Exception
     {
@@ -57,7 +58,7 @@ public class ServerApp
             System.exit(1);
         }
         //create a new transport layer for server (hence true) (wait for client)
-        this.transportLayer = new TransportLayer(true);
+        this.transportLayer = new TransportLayer(true, pDelay, tDelay);
         while( true )
         {
             //receive message from client, and send the "received" message back.
@@ -69,7 +70,6 @@ public class ServerApp
             String[] arrStr_Output;
             String strParsedOutput;
             boolean IPcomm = false;
-            System.out.println("Into switch");
             System.out.println("Input: " + input);
             System.out.println("First Char: " + inputFirstChar);
             switch(inputFirstChar){
@@ -120,6 +120,7 @@ public class ServerApp
             //check if requested item can be found
             if(checkFound(ipAddress)){
             }else{
+                System.out.println("IP not found"); 
              codeThrow(404);
             }
             //check if requested item is modified
@@ -162,6 +163,7 @@ public class ServerApp
         catch (FileNotFoundException e) {
             //address/ page specified doesn't exist
             //transportLayer.send(stringEncode(codeThrow(404)));
+            System.out.println("Exception found"); 
             sendTransport(codeThrow(404));
         }
         catch (IOException e) {

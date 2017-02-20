@@ -1,26 +1,38 @@
 import java.util.concurrent.TimeUnit;
 public class NetworkLayer
 {
-    long delay;
+    int pDelay, tDelay;
+    long start, end;
+    int rtt;
+    boolean server;
     private LinkLayer linkLayer;
 
     public NetworkLayer(boolean server)
     {
         linkLayer = new LinkLayer(server);
+        this.server = server;
 
     }
-    public NetworkLayer(boolean server, long delay)
+    public NetworkLayer(boolean server, int pDelay, int tDelay)
     {
         linkLayer = new LinkLayer(server);
-        this.delay = delay;
+        this.pDelay = pDelay;
+        this.tDelay = tDelay;
+        this.server = server;
     }
     public void send(byte[] payload)
     {
         //System.out.println("Network \t\tSend");
+        start = System.currentTimeMillis();
         //add prop delay
         this.propDelay();
         //add trans delay
         this.networkDelay(payload);
+        end = System.currentTimeMillis();
+        rtt = (int)(end - start);
+        if(server){
+            payload = addRTT(payload, rtt);
+        }
         linkLayer.send( payload );
     }
 
@@ -32,7 +44,7 @@ public class NetworkLayer
     }
     private void propDelay(){
         try{
-            TimeUnit.MILLISECONDS.sleep(delay);
+            TimeUnit.MILLISECONDS.sleep(pDelay);
         }
         catch(InterruptedException e){
             e.printStackTrace();
@@ -40,14 +52,18 @@ public class NetworkLayer
     }
     private void networkDelay(byte[] payload){
         int sizePayload = (payload.length)-1;
-        long timeDelay = 1000; //1000ms
-        long delayDuration = (sizePayload) / (timeDelay);
+        int delayDuration = (sizePayload) * (tDelay);
         //add delay based on payload length/size via sizePayload...
         try{
-            TimeUnit.MILLISECONDS.sleep(timeDelay);
+            TimeUnit.MILLISECONDS.sleep(delayDuration);
         }
         catch(InterruptedException e){
             e.printStackTrace();
         }
+    }
+    private byte[] addRTT(byte[] payload, int rtt){
+        String payloadStr = new String (payload);
+        payloadStr = payloadStr + "\nRound Trip Time: " + rtt + "ms";
+        return payloadStr.getBytes();
     }
 }

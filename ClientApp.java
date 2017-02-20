@@ -14,6 +14,7 @@ public class ClientApp
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line = reader.readLine();
         int num = 0;
+        CharSequence newConn = "\nc ";
         //while line is not empty
         while( line != null && !line.equals("") )
         {
@@ -31,6 +32,9 @@ public class ClientApp
                 }
                 else{
                     payload = strSplit[1];
+                }
+                if(payload.contains(newConn)){
+                    
                 }
                 switch(code) {
                     case "CODE: 200" :

@@ -9,8 +9,8 @@ public class TransportLayer
         networkLayer = new NetworkLayer(server);
     }
     
-    public TransportLayer(boolean server, long delay){
-        networkLayer = new NetworkLayer(server, delay);
+    public TransportLayer(boolean server, int pDelay, int tDelay){
+        networkLayer = new NetworkLayer(server, pDelay, tDelay);
     }
 
     public void send(byte[] payload){

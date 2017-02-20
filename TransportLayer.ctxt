@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.params=server
 comment0.target=TransportLayer(boolean)
-comment1.params=server\ delay
-comment1.target=TransportLayer(boolean,\ long)
+comment1.params=server\ pDelay\ tDelay
+comment1.target=TransportLayer(boolean,\ int,\ int)
 comment2.params=payload
 comment2.target=void\ send(byte[])
 comment3.params=
