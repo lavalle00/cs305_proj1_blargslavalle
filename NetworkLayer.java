@@ -29,7 +29,7 @@ public class NetworkLayer
         //add trans delay
         this.networkDelay(payload);
         end = System.currentTimeMillis();
-        rtt = (int)(end - start); //changing to += gives total trip time for first connection only
+        rtt += (int)(end - start); //changing to += gives total trip time for first connection only
         if(server){
             payload = addRTT(payload, rtt);
         }

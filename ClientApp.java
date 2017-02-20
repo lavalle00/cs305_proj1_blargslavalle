@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class ClientApp
 {
     
+        
     public static void main(String[] args) throws Exception
     {
         //create a new transport layer for client (hence false) (connect to server), and read in first line from keyboard
@@ -15,11 +16,14 @@ public class ClientApp
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line = reader.readLine();
         int num = 0;
-        
+        boolean handshake = false;
         //while line is not empty
         while( line != null && !line.equals("") )
         {
             //convert lines into byte array, send to transoport layer and wait for response
+            if(!handshake){
+                handshake(transportLayer, handshake);
+            }
             byte[] byteArray = line.getBytes();
             
             transportLayer.send( byteArray );
@@ -117,6 +121,16 @@ public class ClientApp
                     }
                 }
                 
+            }
+    }
+    public static void handshake(TransportLayer transportLayer, boolean handshake){
+            System.out.println("Handshake Started");
+            String syn = "syn";
+            transportLayer.send(syn.getBytes());
+            byte[] shakeArray = transportLayer.receive();
+            String ackShake = new String (shakeArray);
+            if(ackShake.equals("ack")){
+                handshake = true;
             }
     }
 }

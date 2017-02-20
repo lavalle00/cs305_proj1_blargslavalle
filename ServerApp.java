@@ -19,7 +19,7 @@ public class ServerApp
     String str_200 = "CODE: 200";
     String str_304 = "CODE: 304";
     String str_404 = "CODE: 404";
-    
+    boolean handshake = false;
     int pDelay = 10;
     int tDelay = 2;
     //expected arguments pDelay, tDelay, httpProt.
@@ -35,6 +35,7 @@ public class ServerApp
     }
     public void init(String[] args)  throws Exception
     {
+        
         if(args != null && args.length > 1 && args.length < 4){
             switch(args.length){
             //only delays
@@ -59,6 +60,15 @@ public class ServerApp
         }
         //create a new transport layer for server (hence true) (wait for client)
         this.transportLayer = new TransportLayer(true, pDelay, tDelay);
+        if(!handshake){
+            byte[] shakeArray = transportLayer.receive();
+            String synShake = new String (shakeArray);
+            if(synShake.equals("syn")){
+                System.out.println("Handshake finished");
+                handshake = true;
+            }
+            transportLayer.send(stringEncode("ack"));
+        }
         while( true )
         {
             //receive message from client, and send the "received" message back.
@@ -141,7 +151,8 @@ public class ServerApp
             }
 
         }
-    }
+       }
+    
     public void addressRead(String address){
         String toSend = "";
         try {
