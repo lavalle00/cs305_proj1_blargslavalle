@@ -39,6 +39,7 @@ public class ClientApp
             line = reader.readLine();
         }
     }
+    //takes a byte array, parses it as a printable string, while checking for codes thrown and if there are embedded files
     public static void printString(byte[] byteArray, TransportLayer transportLayer, String httpType){
             String code, payload;
             String[] strSplit;
@@ -54,8 +55,10 @@ public class ClientApp
                 else{
                     payload = strSplit[1];
                 }
+                //split on new connection delimiter for embedded files
                 if(payload.contains(newConn)){
                     String[] splitFile = payload.split("/nc");
+                    //check if the splits contain a valid filename
                     for(int i = 0; i < splitFile.length; i++){
                         if(splitFile[i].contains(".txt")){
                             String tempIP = "IP " + splitFile[i].trim();
@@ -131,6 +134,7 @@ public class ClientApp
                 
             }
     }
+    //3-way handshake simulator, uses send and recieve to ensure correct round trip times including the sending of syn/ack
     public static void handshake(TransportLayer transportLayer, boolean handshake){
             //System.out.println("Handshake Started");
             String syn = "Syn";
