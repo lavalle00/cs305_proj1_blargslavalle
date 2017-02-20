@@ -66,8 +66,8 @@ public class ServerApp
             String[] arrStr_Output;
             String strParsedOutput;
             boolean IPcomm = false;
-            System.out.println("Input: " + input);
-            System.out.println("First Char: " + inputFirstChar);
+            //System.out.println("Input: " + input);
+            //System.out.println("First Char: " + inputFirstChar);
             switch(inputFirstChar){
                 // command: GET
                 case "C": arrStr_Output = input.split(" ");
@@ -125,22 +125,22 @@ public class ServerApp
             }
             //if not either of those, ok
             
-            System.out.println("\tSending...");
+            //System.out.println("\tSending...");
             if(IPcomm){
                 //FIX CODE THROWS
                 //codeThrow(200);
-                System.out.println("\tReading File");
+                //System.out.println("\tReading File");
                 addressRead(ipAddress);
                 IPcomm = false;
             }
-
+            System.out.println("#################");
         }
        }
     
     public void addressRead(String address){
         String toSend = "";
         try {
-            System.out.println("Address:\t\t\t\t" + address);
+            //System.out.println("Address:\t\t\t\t" + address);
             //fileReader = new FileReader(address);
             //buffReader = new BufferedReader(fileReader);
 
@@ -148,7 +148,7 @@ public class ServerApp
 
             buffReader = new BufferedReader(new FileReader(address));
             while ((sCurrentLine = buffReader.readLine()) != null) {
-                System.out.println("\tLine: " + sCurrentLine);
+                //System.out.println("\tLine: " + sCurrentLine);
                 toSend += sCurrentLine;
                 toSend += "\n";
             }
