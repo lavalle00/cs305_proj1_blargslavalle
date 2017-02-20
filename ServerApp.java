@@ -12,23 +12,50 @@ public class ServerApp
     BufferedReader buffReader;
     FileReader     fileReader;
     
-    String HTTPtype;
-    String IPaddress;
-    String Command;
+    String httpType;
+    String ipAddress;
+    String command;
     
     String str_200 = "CODE: 200";
     String str_304 = "CODE: 304";
     String str_404 = "CODE: 404";
     
-    int Pdelay;
-    int Tdelay;
+    int pDelay, tDelay;
+    //expected arguments pDelay, tDelay, httpProt.
     public static void main(String[] args) throws Exception
     {
         ServerApp s = new ServerApp();
-        s.init();
+        if(args != null){
+            s.init(args);
+        }
+        else{
+            s.init(null);
+        }
     }
-    public void init()  throws Exception
+    public void init(String[] args)  throws Exception
     {
+        if(args != null && args.length > 1 && args.length < 4){
+            switch(args.length){
+            //only delays
+            case 2:
+                pDelay = Integer.parseInt(args[0]);
+                tDelay = Integer.parseInt(args[1]);
+                //assume http 1.0 protocol
+                httpType = "1.1";
+                break;
+            //delays & http prot
+            case 3:
+                pDelay = Integer.parseInt(args[0]);
+                tDelay = Integer.parseInt(args[1]);
+                httpType = args[2];
+                break;
+            }
+            System.out.println("Propagation Delay:\t" + pDelay + "\nTransmission Delay:\t" + tDelay + "\nHTTP Protocol\t" + httpType);
+        }
+        else{
+            System.out.println("Please enter arguments in the form '<num>', '<num>', '1.0'/'1.1'\nProgram will now exit...");
+            System.exit(1);
+        }
         //create a new transport layer for server (hence true) (wait for client)
         this.transportLayer = new TransportLayer(true);
         while( true )
@@ -46,39 +73,43 @@ public class ServerApp
             System.out.println("Input: " + input);
             System.out.println("First Char: " + inputFirstChar);
             switch(inputFirstChar){
-                
+                // command: GET
                 case "C": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
-                          Command = strParsedOutput;
-                          System.out.println("COMMAND:\t" + strParsedOutput);
+                          command = strParsedOutput;
+                          System.out.println("command:\t" + strParsedOutput);
                           break;
+                //IP: <page>
                 case "I": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
-                          IPaddress = strParsedOutput;
-                          System.out.println("IPADDRESS:\t" + strParsedOutput);
+                          ipAddress = strParsedOutput;
+                          System.out.println("ipAddress:\t" + strParsedOutput);
                           IPcomm = true;
                           break;
+                //PROP: <str>
                 case "P": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
-                          Pdelay = Integer.parseInt(strParsedOutput);
-                          System.out.println("PROPDELAY:\t" + strParsedOutput);
-                          sendTransport("Propagation Delay Set:\t" + Pdelay, codeThrow(200));
+                          pDelay = Integer.parseInt(strParsedOutput);
+                          System.out.println("PROpDelay:\t" + strParsedOutput);
+                          sendTransport("Propagation Delay Set:\t" + pDelay, codeThrow(200));
                           break;
+                //TRANS: <str>
                 case "T": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
-                          Tdelay = Integer.parseInt(strParsedOutput);
-                          sendTransport("Transmission Delay Set:\t" + Tdelay, codeThrow(200));
+                          tDelay = Integer.parseInt(strParsedOutput);
+                          sendTransport("Transmission Delay Set:\t" + tDelay, codeThrow(200));
                           System.out.println("TRANSDELAY:\t" + strParsedOutput);
                           break;
+                //HTTP: <str>
                 case "H": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
-                          HTTPtype = strParsedOutput;
-                          sendTransport("HTTP Version Selected:\t" + HTTPtype, codeThrow(200));
+                          httpType = strParsedOutput;
+                          sendTransport("HTTP Version Selected:\t" + httpType, codeThrow(200));
                           System.out.println("HTTP:\t\t" + strParsedOutput);
                           break;
 
-                default: System.out.println("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"); 
-                         transportLayer.send(stringEncode("Please re-enter your command with prefix... \nCOMMAND:\nIP:\nHTTP:\nNUMBER:"));
+                default: System.out.println("Please re-enter your command with prefix... \ncommand:\nIP:\nHTTP:\nNUMBER:"); 
+                         transportLayer.send(stringEncode("Please re-enter your command with prefix... \ncommand:\nIP:\nHTTP:\nNUMBER:"));
                          break;
             }
             if(byteArray==null){
@@ -87,12 +118,12 @@ public class ServerApp
             }
             
             //check if requested item can be found
-            if(checkFound(IPaddress)){
+            if(checkFound(ipAddress)){
             }else{
              codeThrow(404);
             }
             //check if requested item is modified
-            if(checkModified(IPaddress)){
+            if(checkModified(ipAddress)){
                 
             }else{
              codeThrow(304);
@@ -104,7 +135,7 @@ public class ServerApp
                 //FIX CODE THROWS
                 //codeThrow(200);
                 System.out.println("\tReading File");
-                addressRead(IPaddress);
+                addressRead(ipAddress);
                 IPcomm = false;
             }
 
@@ -156,7 +187,7 @@ public class ServerApp
     }
     //for sending string-built code + payload
     private void sendTransport(String payload, String code){
-        System.out.println(stringEncode(code + "//" + payload));
+        //System.out.println(stringEncode(code + "//" + payload));
         transportLayer.send(stringEncode(code + "//" + payload));
     }
     public String codeThrow(int code){

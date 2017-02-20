@@ -7,9 +7,7 @@ public class ClientApp
     public static void main(String[] args) throws Exception
     {
         //create a new transport layer for client (hence false) (connect to server), and read in first line from keyboard
-        //String str_200 = "CODE:\t200\tOK";
-        //String str_304 = "CODE:\t304\tNotModified";
-        //String str_404 = "CODE:\t404\tNotFound";
+
         String code, payload;
         String[] strSplit;
         TransportLayer transportLayer = new TransportLayer(false);
@@ -19,9 +17,6 @@ public class ClientApp
         //while line is not empty
         while( line != null && !line.equals("") )
         {
-            //if(transportLayer.receive() != null){
-            //    byte[] byteArray = transportLayer.receive();
-            //}
             //convert lines into byte array, send to transoport layer and wait for response
             byte[] byteArray = line.getBytes();
             
@@ -30,9 +25,6 @@ public class ClientApp
             String str = new String ( byteArray );
             if(str != null){
                 strSplit = str.split("//");
-                //for(int i = 0; i < strSplit.length-1; i++){
-                //    System.out.println(strSplit[i]);
-                // }
                 code = strSplit[0];
                 if(strSplit.length == 1){
                     payload = "";
