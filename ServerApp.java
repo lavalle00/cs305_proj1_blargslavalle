@@ -98,9 +98,7 @@ public class ServerApp
                           System.out.println("TRANSDELAY:\t" + strParsedOutput);
                           break;
                 //Handshake
-                case "S": TimeUnit.MILLISECONDS.sleep(100);
-                          //transportLayer.receive();
-                          //System.out.println("Syn recieved");
+                case "S": //System.out.println("Syn recieved");
                           transportLayer.send(stringEncode("ack"));
                           //System.out.println("ack sent");
                           IPcomm = false;
