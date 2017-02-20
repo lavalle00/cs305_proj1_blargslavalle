@@ -34,6 +34,7 @@ public class ClientApp
             String code, payload;
             String[] strSplit;
             String str = new String ( byteArray );
+            int totalRTT = 0;
             CharSequence newConn = "/nc ";
             if(str != null){
                 strSplit = str.split("//");
@@ -96,6 +97,7 @@ public class ClientApp
                             break;
                     }
                 }
+                
             }
     }
 }

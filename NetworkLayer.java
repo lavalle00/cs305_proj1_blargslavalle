@@ -29,7 +29,7 @@ public class NetworkLayer
         //add trans delay
         this.networkDelay(payload);
         end = System.currentTimeMillis();
-        rtt = (int)(end - start);
+        rtt += (int)(end - start);
         if(server){
             payload = addRTT(payload, rtt);
         }
