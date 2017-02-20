@@ -46,9 +46,7 @@ public class ClientApp
                     payload = strSplit[1];
                 }
                 if(payload.contains(newConn)){
-                    System.out.println("There is an embeded file");
                     String[] splitFile = payload.split("/nc");
-                    System.out.println(splitFile.length);
                     for(int i = 0; i < splitFile.length; i++){
                         if(splitFile[i].contains(".txt")){
                             String tempIP = "IP " + splitFile[i].trim();
@@ -56,23 +54,44 @@ public class ClientApp
                             byte[] tmpByteArray = transportLayer.receive();
                             printString(tmpByteArray, transportLayer);
                         }else{
-                        switch(code) {
-                        case "CODE: 200" :
-                            //OK
-                            System.out.println(code + "\t OK...\n\n" + splitFile[i]);
-                            break;
-                        case "CODE: 304" :
-                            //Not Modified
-                            System.out.println(code + "\tNot Modified...\n\n" + splitFile[i]);
-                            break;
-                        case "CODE: 404" :
-                            //Page Requested Not Found
-                            System.out.println(code + "\tNot Found...\n\n");
-                            break;
-                        default:
-                            //When none of the above are applicable, just send string
-                            System.out.println(str);
-                            break;
+                        if(i == 0){
+                            switch(code) {
+                                case "CODE: 200" :
+                                    //OK
+                                    System.out.println(code + "\t OK...\n\n" + splitFile[i]);
+                                    break;
+                                case "CODE: 304" :
+                                    //Not Modified
+                                    System.out.println(code + "\tNot Modified...\n\n" + splitFile[i]);
+                                    break;
+                                case "CODE: 404" :
+                                    //Page Requested Not Found
+                                    System.out.println(code + "\tNot Found...\n\n");
+                                    break;
+                                default:
+                                //When none of the above are applicable, just send string
+                                System.out.println(str);
+                                break;
+                            }
+                        }else{
+                            switch(code) {
+                                case "CODE: 200" :
+                                    //OK
+                                    System.out.println(splitFile[i]);
+                                    break;
+                                case "CODE: 304" :
+                                    //Not Modified
+                                    System.out.println(splitFile[i]);
+                                    break;
+                                case "CODE: 404" :
+                                    //Page Requested Not Found
+                                    System.out.println(code + "\tNot Found...\n\n");
+                                    break;
+                                default:
+                                //When none of the above are applicable, just send string
+                                System.out.println(str);
+                                break;
+                            }
                         }
                        }
                     }
