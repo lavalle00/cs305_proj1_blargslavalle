@@ -1,1 +1,1 @@
-check test this is test  \nc test2.txt  test
+check test this is test  /nc test2.txt /nc /nc test2.txt /nc test
