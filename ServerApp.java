@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class ServerApp
 {
     TransportLayer transportLayer;
-    BufferedReader buffReader;
     FileReader     fileReader;
     
     String ipAddress;
@@ -133,23 +132,25 @@ public class ServerApp
        }
     
     public void addressRead(String address){
+        BufferedReader buffReader = null;
+        FileReader file = null;
         //reads the file at address, sends to client with a code
         String toSend = "";
         try {
             //System.out.println("Address:\t\t\t\t" + address);
             //fileReader = new FileReader(address);
             //buffReader = new BufferedReader(fileReader);
-
             String sCurrentLine;
-
-            buffReader = new BufferedReader(new FileReader(address));
+            file = new FileReader(address);
+            buffReader = new BufferedReader(file);
             while ((sCurrentLine = buffReader.readLine()) != null) {
-                //System.out.println("\tLine: " + sCurrentLine);
+                System.out.println("\tLine: " + sCurrentLine);
                 toSend += sCurrentLine;
                 toSend += "\n";
             }
             //transportLayer.send(stringEncode(toSend));
             sendTransport(toSend, codeThrow(200));
+            toSend = "";
         } 
         catch (FileNotFoundException e) {
             //address/ page specified doesn't exist
