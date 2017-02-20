@@ -20,7 +20,7 @@ public class ServerApp
     boolean handshake = false;
     int pDelay = 10;
     int tDelay = 2;
-    //expected arguments pDelay, tDelay, httpProt.
+    //expected arguments pDelay, tDelay
     public static void main(String[] args) throws Exception
     {
         ServerApp s = new ServerApp();
@@ -33,7 +33,7 @@ public class ServerApp
     }
     public void init(String[] args)  throws Exception
     {
-        
+        //turn args into initial delays
         if(args != null && args.length == 2){
             switch(args.length){
             //only delays
@@ -111,12 +111,7 @@ public class ServerApp
                 break;
             }
             
-            //check if requested item can be found
-            if(checkFound(ipAddress)){
-            }else{
-                System.out.println("IP not found"); 
-             codeThrow(404);
-            }
+            //error 404 get thrown with FileNotFoundException
             //check if requested item is modified
             if(checkModified(ipAddress)){
                 
@@ -138,6 +133,7 @@ public class ServerApp
        }
     
     public void addressRead(String address){
+        //reads the file at address, sends to client with a code
         String toSend = "";
         try {
             //System.out.println("Address:\t\t\t\t" + address);
@@ -187,6 +183,7 @@ public class ServerApp
         //System.out.println(stringEncode(code + "//" + payload));
         transportLayer.send(stringEncode(code + "//" + payload));
     }
+    //code generator
     public String codeThrow(int code){
         switch(code) {
             case 200:
@@ -202,12 +199,11 @@ public class ServerApp
                 return str_404;
         }
     }
-    public boolean checkFound(String file){
-        return true;
-    }
+    //where the if modified check would go
     public boolean checkModified(String file){
         return true;
     }
+    //turns a string into a byte[]
     private byte[] stringEncode(String string){
         return string.getBytes();
     }
