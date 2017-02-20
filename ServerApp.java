@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.*;
 import java.io.IOException;
 import java.util.Arrays;
-
+import java.util.concurrent.TimeUnit;
 //This class represents the server application
 public class ServerApp
 {
@@ -98,9 +98,11 @@ public class ServerApp
                           System.out.println("TRANSDELAY:\t" + strParsedOutput);
                           break;
                 //Handshake
-                case "S": transportLayer.receive();
+                case "S": TimeUnit.MILLISECONDS.sleep(100);
+                          //transportLayer.receive();
+                          //System.out.println("Syn recieved");
                           transportLayer.send(stringEncode("ack"));
-                          System.out.println("ack sent");
+                          //System.out.println("ack sent");
                           IPcomm = false;
                           break;
                 default: System.out.println("Please re-enter your command with prefix... \ncommand:\nIP:\nHTTP:\nNUMBER:"); 

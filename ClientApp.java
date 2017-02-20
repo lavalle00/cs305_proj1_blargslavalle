@@ -135,7 +135,9 @@ public class ClientApp
             //System.out.println("Handshake Started");
             String syn = "Syn";
             transportLayer.send(syn.getBytes());
+            //System.out.println("Syn sent" + System.currentTimeMillis());
             transportLayer.receive();
+            //System.out.println("ack recieved");
             handshake = true;
             //System.out.println("Handshake Finished");
             
