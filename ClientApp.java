@@ -9,8 +9,13 @@ public class ClientApp
         
     public static void main(String[] args) throws Exception
     {
+        String httpType = "1.1";
         //create a new transport layer for client (hence false) (connect to server), and read in first line from keyboard
-
+        if(args.length != 1){
+        System.exit(1);
+        }
+        httpType = args[0];
+        System.out.println("HTTP Version:\t" + httpType);
         
         TransportLayer transportLayer = new TransportLayer(false);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -28,13 +33,13 @@ public class ClientApp
             
             transportLayer.send( byteArray );
             byteArray = transportLayer.receive();
-            printString(byteArray, transportLayer);
+            printString(byteArray, transportLayer, httpType);
             System.out.println("#################");
             //read next line
             line = reader.readLine();
         }
     }
-    public static void printString(byte[] byteArray, TransportLayer transportLayer){
+    public static void printString(byte[] byteArray, TransportLayer transportLayer, String httpType){
             String code, payload;
             String[] strSplit;
             String str = new String ( byteArray );
@@ -54,9 +59,12 @@ public class ClientApp
                     for(int i = 0; i < splitFile.length; i++){
                         if(splitFile[i].contains(".txt")){
                             String tempIP = "IP " + splitFile[i].trim();
+                           if(httpType.equals("1.0")){
+                               handshake(transportLayer, true);
+                           }
                             transportLayer.send( tempIP.getBytes() );
                             byte[] tmpByteArray = transportLayer.receive();
-                            printString(tmpByteArray, transportLayer);
+                            printString(tmpByteArray, transportLayer, httpType);
                         }else{
                         if(i == 0){
                             switch(code) {
@@ -124,13 +132,12 @@ public class ClientApp
             }
     }
     public static void handshake(TransportLayer transportLayer, boolean handshake){
-            System.out.println("Handshake Started");
-            String syn = "syn";
+            //System.out.println("Handshake Started");
+            String syn = "Syn";
             transportLayer.send(syn.getBytes());
-            byte[] shakeArray = transportLayer.receive();
-            String ackShake = new String (shakeArray);
-            if(ackShake.equals("ack")){
-                handshake = true;
-            }
+            transportLayer.receive();
+            handshake = true;
+            //System.out.println("Handshake Finished");
+            
     }
 }

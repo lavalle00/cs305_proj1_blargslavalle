@@ -12,7 +12,6 @@ public class ServerApp
     BufferedReader buffReader;
     FileReader     fileReader;
     
-    String httpType;
     String ipAddress;
     String command;
     
@@ -36,37 +35,25 @@ public class ServerApp
     public void init(String[] args)  throws Exception
     {
         
-        if(args != null && args.length > 1 && args.length < 4){
+        if(args != null && args.length == 2){
             switch(args.length){
             //only delays
             case 2:
                 pDelay = Integer.parseInt(args[0]);
                 tDelay = Integer.parseInt(args[1]);
-                //assume http 1.0 protocol
-                httpType = "1.1";
-                break;
-            //delays & http prot
-            case 3:
-                pDelay = Integer.parseInt(args[0]);
-                tDelay = Integer.parseInt(args[1]);
-                httpType = args[2];
                 break;
             }
-            System.out.println("Propagation Delay:\t" + pDelay + "\nTransmission Delay:\t" + tDelay + "\nHTTP Protocol\t" + httpType);
+            System.out.println("Propagation Delay:\t" + pDelay + "\nTransmission Delay:\t" + tDelay);
         }
         else{
-            System.out.println("Please enter arguments in the form '<num>', '<num>', '1.0'/'1.1'\nProgram will now exit...");
+            System.out.println("Please enter arguments in the form '<num>', '<num>'\nProgram will now exit...");
             System.exit(1);
         }
         //create a new transport layer for server (hence true) (wait for client)
         this.transportLayer = new TransportLayer(true, pDelay, tDelay);
         if(!handshake){
-            byte[] shakeArray = transportLayer.receive();
-            String synShake = new String (shakeArray);
-            if(synShake.equals("syn")){
-                System.out.println("Handshake finished");
-                handshake = true;
-            }
+            transportLayer.receive();
+            handshake = true;
             transportLayer.send(stringEncode("ack"));
         }
         while( true )
@@ -110,14 +97,12 @@ public class ServerApp
                           sendTransport("Transmission Delay Set:\t" + tDelay, codeThrow(200));
                           System.out.println("TRANSDELAY:\t" + strParsedOutput);
                           break;
-                //HTTP: <str>
-                case "H": arrStr_Output = input.split(" ");
-                          strParsedOutput = arrStr_Output[1];
-                          httpType = strParsedOutput;
-                          sendTransport("HTTP Version Selected:\t" + httpType, codeThrow(200));
-                          System.out.println("HTTP:\t\t" + strParsedOutput);
+                //Handshake
+                case "S": transportLayer.receive();
+                          transportLayer.send(stringEncode("ack"));
+                          System.out.println("ack sent");
+                          IPcomm = false;
                           break;
-
                 default: System.out.println("Please re-enter your command with prefix... \ncommand:\nIP:\nHTTP:\nNUMBER:"); 
                          transportLayer.send(stringEncode("Please re-enter your command with prefix... \ncommand:\nIP:\nHTTP:\nNUMBER:"));
                          break;
