@@ -17,12 +17,13 @@ public class ServerApp
     String str_304 = "CODE: 304";
     String str_404 = "CODE: 404";
     boolean handshake = false;
-    int pDelay = 10;
-    int tDelay = 2;
+    int pDelay = 0;
+    int tDelay = 0;
     //expected arguments pDelay, tDelay
     public static void main(String[] args) throws Exception
     {
         ServerApp s = new ServerApp();
+        //nullchecks for args
         if(args != null){
             s.init(args);
         }
@@ -32,11 +33,12 @@ public class ServerApp
     }
     public void init(String[] args)  throws Exception
     {
-        //turn args into initial delays
+        //ensure args format is correct
         if(args != null && args.length == 2){
             switch(args.length){
             //only delays
             case 2:
+                //save the args
                 pDelay = Integer.parseInt(args[0]);
                 tDelay = Integer.parseInt(args[1]);
                 break;
@@ -58,17 +60,14 @@ public class ServerApp
         {
             //receive message from client, and send the "received" message back.
             byte[] byteArray = transportLayer.receive();
-            //System.out.println(byteArray);
             //if client disconnected
             String input = new String (byteArray);
             String inputFirstChar = input.substring(0,1);
             String[] arrStr_Output;
             String strParsedOutput;
             boolean IPcomm = false;
-            //System.out.println("Input: " + input);
-            //System.out.println("First Char: " + inputFirstChar);
             switch(inputFirstChar){
-                // command: GET
+                // command: GET (THIS IS DEPRECATED)
                 case "C": arrStr_Output = input.split(" ");
                           strParsedOutput = arrStr_Output[1];
                           command = strParsedOutput;
@@ -130,7 +129,7 @@ public class ServerApp
             System.out.println("#################");
         }
        }
-    
+    //used to "read" the requested page(local) from client
     public void addressRead(String address){
         BufferedReader buffReader = null;
         FileReader file = null;
@@ -151,7 +150,7 @@ public class ServerApp
             //transportLayer.send(stringEncode(toSend));
             sendTransport(toSend, codeThrow(200));
             toSend = "";
-        } 
+        }
         catch (FileNotFoundException e) {
             //address/ page specified doesn't exist
             //transportLayer.send(stringEncode(codeThrow(404)));
@@ -175,7 +174,7 @@ public class ServerApp
             }
         }
     }
-    //for sending pure codes
+    //helper method to send pure code (200, 304, 404)
     private void sendTransport(String code){
         transportLayer.send(stringEncode(code));
     }
@@ -204,7 +203,7 @@ public class ServerApp
     public boolean checkModified(String file){
         return true;
     }
-    //turns a string into a byte[]
+    //turns a string into a byte[] (to send)
     private byte[] stringEncode(String string){
         return string.getBytes();
     }

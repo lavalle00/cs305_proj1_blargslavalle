@@ -22,14 +22,15 @@ public class NetworkLayer
     }
     public void send(byte[] payload)
     {
-        //System.out.println("Network \t\tSend");
         start = System.currentTimeMillis();
         //add prop delay
         this.propDelay();
         //add trans delay
         this.networkDelay(payload);
         end = System.currentTimeMillis();
-        rtt += (int)(end - start); //changing to += gives total trip time for first connection only
+        
+        //changing to += gives total trip time for first connection only
+        rtt += (int)(end - start); 
         if(server){
             payload = addRTT(payload, rtt);
         }
@@ -38,7 +39,6 @@ public class NetworkLayer
 
     public byte[] receive()
     {
-        //System.out.println("Network \t\tReceive");
         byte[] payload = linkLayer.receive();
         return payload;
     }
@@ -51,9 +51,9 @@ public class NetworkLayer
         }
     }
     private void networkDelay(byte[] payload){
-        int sizePayload = (payload.length)-1;
+        int sizePayload = (payload.length);
         int delayDuration = (sizePayload) * (tDelay);
-        //add delay based on payload length/size via sizePayload...
+        //delay based on payload length via sizePayload...
         try{
             TimeUnit.MILLISECONDS.sleep(delayDuration);
         }
@@ -62,8 +62,11 @@ public class NetworkLayer
         }
     }
     private byte[] addRTT(byte[] payload, int rtt){
+        //saving payload
         String payloadStr = new String (payload);
-        payloadStr = payloadStr + "\nRound Trip Time: " + rtt + "ms";
+        
+        //appending round-trip-time to existing payload
+        payloadStr = payloadStr + "\nRound Trip Time:\t" + rtt + "ms";
         return payloadStr.getBytes();
     }
 }

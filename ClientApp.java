@@ -5,14 +5,13 @@ import java.util.Scanner;
 //This class represents the client application
 public class ClientApp
 {
-    
-        
     public static void main(String[] args) throws Exception
     {
         String httpType = "1.1";
         //create a new transport layer for client (hence false) (connect to server), and read in first line from keyboard
         if(args.length != 1){
-        System.exit(1);
+            System.out.println("Please specify an HTTP protocol: 1.1 or 1. ClientApp will now exit...");
+            System.exit(1);
         }
         httpType = args[0];
         System.out.println("HTTP Version:\t" + httpType);
